@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946703937255",
+    "project_id": "cotasker-530b4",
+    "storage_bucket": "cotasker-530b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946703937255:android:236812972a6597acf37c42",
+        "android_client_info": {
+          "package_name": "com.example.cotasker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq2L9MmIxQYpdqgmRDJMu5oe7g2VFWyGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
