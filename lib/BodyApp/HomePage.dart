@@ -32,48 +32,48 @@ class _HomePageState extends State<HomePage> {
   int selectedindex = 0;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: myappbar("Home", context),
-            bottomNavigationBar: mybottonnavigationbar(0, (val) {
-              setState(() {
-                selectedindex = val;
-                if (selectedindex == 1) {
-                  Navigator.of(context).pushNamed("MyProject");
-                }
-                if (selectedindex == 0) {
-                  Navigator.of(context).pushNamed("HomePage");
-                }
-                if (selectedindex == 3) {
-                  Navigator.of(context).pushNamed("ProfilPage");
-                }
-                if (selectedindex == 2) {
-                  Navigator.of(context).pushNamed("NotiPage");
-                }
-              });
-            }),
-            // body: ListView(
-            //   children: [Text("Hello in application ")],
-            // ),
-            body: GridView.builder(
-              itemCount: data.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisExtent: 80,
+    return Scaffold(
+      appBar: myappbar("Home", context),
+      // bottomNavigationBar: mybottonnavigationbar(0, (val) {
+      //   setState(() {
+      //     selectedindex = val;
+      //     if (selectedindex == 1) {
+      //       Navigator.of(context).pushNamed("MyProject");
+      //     }
+      //     if (selectedindex == 0) {
+      //       Navigator.of(context).pushNamed("HomePage");
+      //     }
+      //     if (selectedindex == 3) {
+      //       Navigator.of(context).pushNamed("ProfilPage");
+      //     }
+      //     if (selectedindex == 2) {
+      //       Navigator.of(context).pushNamed("NotiPage");
+      //     }
+      //   });
+      // }),
+      // body: ListView(
+      //   children: [Text("Hello in application ")],
+      // ),
+      body: GridView.builder(
+        itemCount: data.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          mainAxisExtent: 80,
+        ),
+        itemBuilder: (context, i) {
+          return Card(
+            child: Container(
+              padding: EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  Text("${data[i]['title']}  : ${data[i]['dateStart']}")
+                ],
               ),
-              itemBuilder: (context, i) {
-                return Card(
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      children: [
-                        Text("${data[i]['title']}  : ${data[i]['dateStart']}")
-                      ],
-                    ),
-                  ),
-                );
-              },
-              // ),
-            )));
+            ),
+          );
+        },
+        // ),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cotasker/BodyApp/creat_Task.dart';
 import 'package:cotasker/MyFramework/buttonForm.dart';
 import 'package:cotasker/MyFramework/textFieldForm.dart';
 import 'package:cotasker/core/myappbar.dart';
@@ -7,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CreatProject extends StatefulWidget {
+  static const routeName = 'create-project';
+
   const CreatProject({super.key});
 
   @override
@@ -153,7 +156,7 @@ class _MyprojectState extends State<CreatProject> {
                                   addProject(project);
                                   // print(projects.doc(widget.docid));
                                 }
-                                Navigator.of(context).pushNamed("Creat_task");
+                                Navigator.of(context).pushNamed(Creat_task.routeName);
                                 // },
                               }
                             }),

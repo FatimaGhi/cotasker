@@ -9,6 +9,7 @@ import 'package:cotasker/model/Task_model.dart';
 int i = 1;
 
 class Creat_task extends StatefulWidget {
+  static const routeName = 'create-task';
   const Creat_task({super.key});
 
   @override
@@ -186,7 +187,8 @@ class __Creat_taskState extends State<Creat_task> {
                             print(
                                 "****************************************************************************men ba3ed incrementation **************$i");
 
-                            Navigator.of(context).pushNamed("Creat_task");
+                            Navigator.of(context)
+                                .pushNamed(Creat_task.routeName);
                           }
                           if (i == 3 + 1) {
                             setState(() {

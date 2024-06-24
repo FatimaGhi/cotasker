@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 
 class CreatAccountPage extends StatefulWidget {
+  static const routeName='create-account';
   const CreatAccountPage({super.key});
   @override
   State<CreatAccountPage> createState() => _CreatAccountPageState();

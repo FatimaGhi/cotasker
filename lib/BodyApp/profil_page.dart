@@ -17,60 +17,44 @@ class _Profil_pageState extends State<Profil_page> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return  Scaffold(
       appBar: myappbar("MyProfil", context),
-      bottomNavigationBar: mybottonnavigationbar(3, (val) {
-        setState(() {
-          selectedindex = val;
-          if (selectedindex == 1) {
-            Navigator.of(context).pushNamed("MyProject");
-          }
-          if (selectedindex == 0) {
-            Navigator.of(context).pushNamed("HomePage");
-          }
-          if (selectedindex == 3) {
-            Navigator.of(context).pushNamed("ProfilPage");
-          }
-          if (selectedindex == 2) {
-            Navigator.of(context).pushNamed("NotiPage");
-          }
-        });
-      }),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const SizedBox(height: 40),
-            // CircleAvatar(
-            //   radius: 70,
-            //   backgroundImage: AssetImage('assets/images/user.JPG'),
-            // ),
-            const SizedBox(height: 20),
-            itemProfile('Frist Name', 'fatima ', CupertinoIcons.person),
-            const SizedBox(height: 10),
-            itemProfile('last Name', 'Ahad Hashmi', CupertinoIcons.person),
-            const SizedBox(height: 10),
-            itemProfile('Phone', '03107085816', CupertinoIcons.phone),
-            const SizedBox(height: 10),
-            itemProfile(
-                'Email', 'ahadhashmideveloper@gmail.com', CupertinoIcons.mail),
-            const SizedBox(
-              height: 60,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(15),
-                  ),
-                  child: const Text('Edit Profile')),
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              // CircleAvatar(
+              //   radius: 70,
+              //   backgroundImage: AssetImage('assets/images/user.JPG'),
+              // ),
+              const SizedBox(height: 20),
+              itemProfile('Frist Name', 'fatima ', CupertinoIcons.person),
+              const SizedBox(height: 10),
+              itemProfile('last Name', 'Ahad Hashmi', CupertinoIcons.person),
+              const SizedBox(height: 10),
+              itemProfile('Phone', '03107085816', CupertinoIcons.phone),
+              const SizedBox(height: 10),
+              itemProfile('Email', 'ahadhashmideveloper@gmail.com',
+                  CupertinoIcons.mail),
+              const SizedBox(
+                height: 60,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(15),
+                    ),
+                    child: const Text('Edit Profile')),
+              )
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
 
