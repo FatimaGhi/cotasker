@@ -28,6 +28,7 @@ class _LoginState extends State<Loginf> {
             //BOTTON FOR Sign in
             Container(
               margin: EdgeInsets.only(bottom: 30),
+              width: 250,
               child: TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor:
@@ -40,61 +41,60 @@ class _LoginState extends State<Loginf> {
                 ),
                 onPressed: () {
                   // Action to perform when the button is pressed
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => SignInPage()));
                 },
                 child: Text('Sign in',
                     style: TextStyle(fontSize: 25, color: Colors.white)),
               ),
             ),
-            // TextButton(
-            //   style: TextButton.styleFrom(
-            //     backgroundColor:
-            //         Color.fromARGB(255, 141, 101, 186), // Background color
-            //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            //     textStyle: TextStyle(fontSize: 16),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //   ),
-            //   onPressed: () {
-            //     // Action to perform when the button is pressed
-            //     Navigator.of(context).push(
-            //         MaterialPageRoute(builder: (context) => SignInPage()));
-            //   },
-            //   child: Text('Sign in',
-            //       style: TextStyle(fontSize: 25, color: Colors.white)),
-            // ),
 
             //BOTTON FOR Create Account
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CreatAccountPage()));
-              },
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Color.fromARGB(255, 141, 101, 186), // Background color
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                textStyle: TextStyle(fontSize: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Container(
+              width: 250,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => CreatAccountPage()));
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Color.fromARGB(255, 233, 229, 238), // Background color
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  side: BorderSide(
+                      color: Color.fromARGB(0,75, 0, 130), width: 2),
+                  textStyle: TextStyle(fontSize: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Create Account ',
+                  style: TextStyle(
+                      fontSize: 25, color: Color.fromARGB(255, 58, 8, 150)),
                 ),
               ),
-              child: Text(
-                'Create Account ',
-                style: TextStyle(fontSize: 25, color: Colors.white),
-              ),
             ),
-            // Container(
-            //   alignment: Alignment.bottomCenter,
-            //   child: Row(
-            //     children: [
-            //       Text("Teams of use"),
-            //       Text("Privacy pollcy"),
-            //     ],
-            //   ),
-            // )
+
+            Container(
+              margin: EdgeInsets.only(top: 200),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Text(
+                      "Teams of use",
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      "Privacy pollcy",
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
