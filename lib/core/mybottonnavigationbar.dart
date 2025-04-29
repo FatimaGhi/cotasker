@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-mybottonnavigationbar(int selectedindex, onTap) {
+mybottonnavigationbar(int selectedindex, onTap, String t) {
   return BottomNavigationBar(
       currentIndex: selectedindex,
       onTap: onTap,
@@ -16,7 +16,7 @@ mybottonnavigationbar(int selectedindex, onTap) {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.task),
-          label: "My Project",
+          label: t, //le3ba hena hhh
           backgroundColor: Color.fromARGB(255, 141, 101, 186),
         ),
         BottomNavigationBarItem(
@@ -26,7 +26,7 @@ mybottonnavigationbar(int selectedindex, onTap) {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: "Profil",
+          label: "Profile",
           backgroundColor: Color.fromARGB(255, 141, 101, 186),
         ),
       ]);

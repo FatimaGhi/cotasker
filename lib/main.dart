@@ -1,9 +1,11 @@
 import 'package:cotasker/BodyApp/CreatProject.dart';
 import 'package:cotasker/BodyApp/HomePage.dart';
+import 'package:cotasker/BodyApp/InfoProject.dart';
 import 'package:cotasker/BodyApp/InfoTask.dart';
 import 'package:cotasker/BodyApp/MyProject.dart';
 import 'package:cotasker/BodyApp/NotiPage.dart';
 import 'package:cotasker/BodyApp/creat_Task.dart';
+import 'package:cotasker/BodyApp/my_task.dart';
 import 'package:cotasker/BodyApp/profil_page.dart';
 import 'package:cotasker/Login/CreateAccoint.dart';
 import 'package:cotasker/Login/SignInPage.dart';
@@ -49,18 +51,24 @@ class _MyAppState extends State<MyApp> {
               FirebaseAuth.instance.currentUser!.emailVerified)
           ? Loginf()
           : HomePage(),
+      // home: MyProject(),
       routes: {
-        '/': (context) => HomePage(),
+        // '/': (context) => HomePage(),
         "/signin": (context) => SignInPage(),
         "/creatAccount": (context) => CreatAccountPage(),
-        // "/HomePage": (context) => HomePage(),
+        "/HomePage": (context) => HomePage(),
         "/MyProject": (context) => MyProject(),
         "/CreatProject": (context) => CreatProject(),
-        "/Creat_task": (context) => Creat_task(),
-        "/ProfilPage": (context) => Profil_page(),
+        // "/Creat_task": (context) =>  Creat_task(),
+        "/ProfilPage": (context) => Profil_page(
+              userProfile: {},
+            ),
         "/NotiPage": (context) => NotiPage(),
-        "/Info_project": (context) => InfoProject(),
+        "mytask": (context) => my_task(),
+        // "/Info_project": (context) => InfoProject(idProject: String v)
       },
     );
   }
+  
+  
 }

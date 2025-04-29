@@ -12,23 +12,41 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // get errorMessage => null;
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool isloading = false;
+  bool isLoading = false;
+
+  void showAlertDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            body: isloading
+            body: isLoading
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
                 : SingleChildScrollView(
                     padding: EdgeInsets.only(top: 130, right: 20, left: 20),
-
-                    // alignment: Alignment.center,
                     child: Column(
                       children: [
                         Container(
@@ -47,7 +65,6 @@ class _SignInPageState extends State<SignInPage> {
                             style: TextStyle(color: Colors.grey),
                           ),
                         ),
-                        //input
                         Container(
                           child: Form(
                             key: _formKey,
@@ -65,14 +82,16 @@ class _SignInPageState extends State<SignInPage> {
                                     mycontroller: password,
                                     keyboardType:
                                         TextInputType.visiblePassword),
-                                //text forget password
                                 InkWell(
                                     onTap: () async {
                                       if (!email.text.isEmpty) {
                                         await FirebaseAuth.instance
                                             .sendPasswordResetEmail(
                                                 email: email.text);
-                                        //$$$$$$$$$$$$$$ khasni dak dialog
+                                        showAlertDialog(
+                                            context,
+                                            "Password Reset",
+                                            "A password reset link has been sent to your email.");
                                       }
                                     },
                                     child: Container(
@@ -80,8 +99,6 @@ class _SignInPageState extends State<SignInPage> {
                                       margin: EdgeInsets.only(top: 10),
                                       child: Text("Forget password ?"),
                                     )),
-
-                                //botton lodin
                                 Container(
                                   width: 200,
                                   margin: EdgeInsets.only(top: 50),
@@ -89,8 +106,9 @@ class _SignInPageState extends State<SignInPage> {
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
                                           try {
-                                            isloading = true;
-                                            setState(() {});
+                                            setState(() {
+                                              isLoading = true;
+                                            });
                                             final credential =
                                                 await FirebaseAuth
                                                     .instance
@@ -98,35 +116,33 @@ class _SignInPageState extends State<SignInPage> {
                                                         email: email.text,
                                                         password:
                                                             password.text);
-                                            isloading = false;
-                                            setState(() {});
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                             if (credential
                                                 .user!.emailVerified) {
                                               Navigator.of(context)
                                                   .pushReplacementNamed(
-                                                      "HomePage");
+                                                      "/HomePage");
                                             } else {
-                                              // FirebaseAuth.instance.currentUser!
-                                              //     .sendEmailVerification();
-                                              print(
-                                                  " han khasni n3ml dak dialogi bax yrj2 le barid deyalo ");
+                                              showAlertDialog(
+                                                  context,
+                                                  "Email Verification",
+                                                  "Please verify your email before logging in. A verification link has been sent to your email.");
+                                              await FirebaseAuth
+                                                  .instance.currentUser!
+                                                  .sendEmailVerification();
                                             }
                                           } on FirebaseAuthException catch (e) {
-                                            isloading = false;
-                                            setState(() {});
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                             if (e.code == 'user-not-found') {
-                                              print(
+                                              showAlertDialog(context, "Error",
                                                   'No user found for that email.');
-                                              // AwesomeDialog(
-                                              //   context: context,
-                                              //   dialogType: DialogType.info,
-                                              //   animType: AnimType.rightSlide,
-                                              //   title: 'Dialog Title',
-                                              //   desc: 'No user found for that email',
-                                              // ).show();
                                             } else if (e.code ==
                                                 'wrong-password') {
-                                              print(
+                                              showAlertDialog(context, "Error",
                                                   'Wrong password provided for that user.');
                                             }
                                           }
@@ -138,19 +154,17 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                           ),
                         ),
-
                         Container(
                           height: 40,
                         ),
-                        // margin: EdgeInsets.only(top: 60),
                         InkWell(
                           onTap: () {
                             Navigator.of(context)
-                                .pushReplacementNamed("creatAccount");
+                                .pushReplacementNamed("/creatAccount");
                           },
                           child: Text.rich(
                             TextSpan(children: [
-                              TextSpan(text: ("Dont't have an account?  ")),
+                              TextSpan(text: ("Don't have an account?  ")),
                               TextSpan(
                                   text: "  Register",
                                   style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cotasker/BodyApp/creat_Task.dart';
 import 'package:cotasker/MyFramework/buttonForm.dart';
 import 'package:cotasker/MyFramework/textFieldForm.dart';
 import 'package:cotasker/core/myappbar.dart';
@@ -46,15 +47,18 @@ class _MyprojectState extends State<CreatProject> {
   CollectionReference projects =
       FirebaseFirestore.instance.collection('projects');
 
-  Future<void> addProject(Project project) async {
+  Future<String> addProject(Project project) async {
     // CollectionReference projects =
     //     FirebaseFirestore.instance.collection('projects');
 
-    return projects
-        .doc(project.id)
-        .set(project.toMap())
-        .then((value) => print("Project Added"))
-        .catchError((error) => print("Failed to add project: $error"));
+    // return projects
+    //     .doc(project.id)
+    //     .set(project.toMap())
+    //     .then((value) => print("Project Added"))
+    //     .catchError((error) => print("Failed to add project: $error"));
+
+    DocumentReference docRef = await projects.add(project.toMap());
+    return docRef.id;
   }
 
   @override
@@ -117,16 +121,16 @@ class _MyprojectState extends State<CreatProject> {
                       Container(
                         height: 40,
                       ),
+                      // formInput(
+                      //   mylable: "Number Task",
+                      //   mycontroller: N_task,
+                      //   keyboardType: TextInputType.numberWithOptions(),
+                      // ),
+                      // Container(
+                      //   height: 40,
+                      // ),
                       formInput(
-                        mylable: "Number Task",
-                        mycontroller: N_task,
-                        keyboardType: TextInputType.numberWithOptions(),
-                      ),
-                      Container(
-                        height: 40,
-                      ),
-                      formInput(
-                          mylable: "Commentaire", mycontroller: Commentaire),
+                          mylable: "Description", mycontroller: Commentaire),
                       Container(
                         height: 70,
                       ),
@@ -134,7 +138,7 @@ class _MyprojectState extends State<CreatProject> {
                         alignment: Alignment.bottomRight,
                         child: MyButtonT(
                             title: "Next",
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 String? userId = getCurrentUserId();
                                 if (userId != null) {
@@ -147,13 +151,31 @@ class _MyprojectState extends State<CreatProject> {
                                         DateTime.parse(_dateController2.text),
                                     etat: "consute",
                                     commentaire: Commentaire.text,
-                                    nTask: int.parse(N_task.text),
+                                    // nTask: int.parse(N_task.text),
                                   );
 
-                                  addProject(project);
+                                  // addProject(project);
+                                  String projectId = await addProject(
+                                      project); // Get the project ID here
+                                  print(
+                                      'Created project with ID  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP: $projectId');
+
+///////ila sd9t hena rj3 le my project ok
+                                  // Navigator.push(
+                                  // context,
+                                  // MaterialPageRoute(
+                                  //     builder: (context) =>
+                                  //         Creat_task()),
+                                  // );
                                   // print(projects.doc(widget.docid));
                                 }
-                                Navigator.of(context).pushNamed("Creat_task");
+                                Navigator.of(context).pop();
+                                // Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>
+                                //               Creat_task(task_project: projectId)),
+                                //     );
                                 // },
                               }
                             }),

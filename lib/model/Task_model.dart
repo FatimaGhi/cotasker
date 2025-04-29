@@ -9,6 +9,9 @@ class Taska {
   String etat;
   String email;
   String description;
+ String  id_project;
+ String id_user_de_task;
+ String choix;
 
   Taska({
     this.id,
@@ -19,6 +22,9 @@ class Taska {
     required this.etat,
     required this.email,
     required this.description,
+    required this.id_project,
+    required this.id_user_de_task,
+    required this.choix,
   });
 
   // Convert a Task object to a Map object
@@ -32,6 +38,9 @@ class Taska {
       'etat': etat,
       'email': email,
       'description': description,
+      'id_project': id_project,
+      'id_user_de_task': id_user_de_task,
+      'choix':choix,
     };
   }
 
@@ -46,6 +55,9 @@ class Taska {
       etat: map['etat'],
       email: map['email'],
       description: map['description'],
+      id_project:map['id_project'],
+      id_user_de_task:map['id_user_de_task'],
+      choix:map['choix'],
     );
   }
 }

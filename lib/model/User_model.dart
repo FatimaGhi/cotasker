@@ -2,9 +2,10 @@ class Users {
   String? id;
   String firstName;
   String lastName;
-  int N_tel;
+  String N_tel;
   String email;
   String password;
+  String type;
 
   Users({
     required this.id,
@@ -13,6 +14,7 @@ class Users {
     required this.N_tel,
     required this.email,
     required this.password,
+    required this.type,
   });
 
   // Convert a User object to a Map object
@@ -24,6 +26,7 @@ class Users {
       'N_tel': N_tel,
       'email': email,
       'password': password,
+      'type': type,
     };
   }
 
@@ -36,6 +39,7 @@ class Users {
       N_tel: map['N_tel'] ?? '',
       email: map['email'] ?? '',
       password: map['password'] ?? '',
+      type: map['type'] ?? '',
     );
   }
 }

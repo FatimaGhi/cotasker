@@ -1,10 +1,16 @@
 // import 'package:cotasker/MyFramework/MyAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cotasker/BodyApp/InfoProject.dart';
 import 'package:cotasker/core/myappbar.dart';
 import 'package:cotasker/core/mybottonnavigationbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cotasker/core/myappbar.dart';
 // import 'package:cotasker/core/mybottonnavigationbar.dart';
 import 'package:flutter/material.dart';
+
+String passage = "/MyProject";
+bool isChef = true ;
+String TitlePage = "My project";
 
 class MyProject extends StatefulWidget {
   const MyProject({super.key});
@@ -15,17 +21,84 @@ class MyProject extends StatefulWidget {
 
 class __MyProjectState extends State<MyProject> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance; //update now
+
+  // Future<List<Map<String, dynamic>>> _fetchData() async {
+  //   QuerySnapshot querySnapshot = await _firestore.collection('projects').get();
+  //   if (true) {
+  //     return querySnapshot.docs.map((doc) {
+  //       return {
+  //         "id": doc.id,
+  //         "dateStart": doc['dateStart'],
+  //         "title": doc['title'],
+  //         "commentaire": doc['commentaire']
+  //       };
+  //     }).toList();
+  //   }
+  // }
+  Future<String?> _fetchUserType() async {
+    User? user = _auth.currentUser;
+    if (user == null) {
+      return null;
+    }
+
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.uid).get();
+    return userDoc['type'];
+  }
 
   Future<List<Map<String, dynamic>>> _fetchData() async {
-    QuerySnapshot querySnapshot = await _firestore.collection('projects').get();
-    if (true) {
-      return querySnapshot.docs.map((doc) {
-        return {
-          "dateStart": doc['dateStart'],
-          "title": doc['title'],
-          "commentaire": doc['commentaire']
-        };
-      }).toList();
+    User? user = _auth.currentUser;
+    if (user == null) {
+      return [];
+    }
+
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('projects')
+        .where('userId', isEqualTo: user.uid)
+        .get();
+
+    return querySnapshot.docs.map((doc) {
+      return {
+        "id": doc.id,
+        "dateStart": doc['dateStart'],
+        "title": doc['title'],
+        "commentaire": doc['commentaire']
+      };
+    }).toList();
+  }
+  @override
+  void initState() {
+    super.initState();
+    checkIfChef();
+    test();
+  }
+
+  Future<void> checkIfChef() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      DocumentSnapshot doc =
+          await _firestore.collection('Chef_Project').doc(userId).get();
+      if (doc.exists) {
+        setState(() {
+          isChef = true;
+          TitlePage="My project";
+        });
+      } else {
+        setState(() {
+          isChef = false;
+          TitlePage = "My Task";
+        });
+      }
+    }
+  }
+
+  void test() {
+    checkIfChef();
+    if (isChef == false) {
+      passage = "mytask";
     }
   }
 
@@ -40,26 +113,24 @@ class __MyProjectState extends State<MyProject> {
               setState(() {
                 selectedindex = val;
                 if (selectedindex == 1) {
-                  Navigator.of(context).pushNamed("MyProject");
-                }
-                if (selectedindex == 0) {
-                  Navigator.of(context).pushNamed("HomePage");
-                }
-                if (selectedindex == 3) {
-                  Navigator.of(context).pushNamed("ProfilPage");
-                }
-                if (selectedindex == 2) {
-                  Navigator.of(context).pushNamed("NotiPage");
+                  test();
+                  Navigator.of(context).pushNamed("$passage");
+                } else if (selectedindex == 0) {
+                  Navigator.of(context).pushNamed("/HomePage");
+                } else if (selectedindex == 3) {
+                  Navigator.of(context).pushNamed("/ProfilPage");
+                } else if (selectedindex == 2) {
+                  Navigator.of(context).pushNamed("/NotiPage");
                 }
               });
-            }),
+            },TitlePage),
 
             //fin navigation bar
 
             //botton for ADD
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).pushNamed("CreatProject");
+                Navigator.of(context).pushNamed("/CreatProject");
               },
               child: Icon(Icons.add),
             ),
@@ -117,7 +188,7 @@ class __MyProjectState extends State<MyProject> {
                                   // print(
                                   //     "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"),
                                   // Navigator.of(context)
-                                  //     .pushReplacementNamed("ProfilPage")
+                                  //     .pushReplacementNamed("/ProfilPage")
                                 },
                                 title: Text(
                                   "$title",
@@ -134,7 +205,16 @@ class __MyProjectState extends State<MyProject> {
                                     print(
                                         "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
-                                    Navigator.pushNamed(context, "/ProfilPage");
+                                    // Navigator.pushNamed(context, "/Info_project");
+                                    String projectId =
+                                        firstThreeItems[index]['id'];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => InfoProject(
+                                                idProject: projectId,
+                                              )),
+                                    );
                                   },
                                 ),
                               ),

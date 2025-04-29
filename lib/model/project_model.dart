@@ -6,7 +6,7 @@ class Project {
   DateTime dateEnd;
   String etat;
   String commentaire;
-  int nTask;
+  // int nTask;
 
   Project({
     required this.userId,
@@ -15,7 +15,7 @@ class Project {
     required this.dateEnd,
     required this.etat,
     required this.commentaire,
-    required this.nTask,
+    // required this.nTask,
   });
 
   // Convert a Project object into a map
@@ -28,7 +28,7 @@ class Project {
       'dateEnd': dateEnd.toIso8601String(),
       'etat': etat,
       'commentaire': commentaire,
-      'nTask': nTask,
+      // 'nTask': nTask,
     };
   }
 
@@ -44,7 +44,7 @@ class Project {
           DateTime.parse(map['dateEnd'] ?? DateTime.now().toIso8601String()),
       etat: map['etat'],
       commentaire: map['commentaire'],
-      nTask: map['nTask'],
+      // nTask: map['nTask'],
     );
   }
 }

@@ -18,6 +18,7 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
   TextEditingController numbe = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController passwod = TextEditingController();
+
   String? getCurrentUserId() {
     User? user = FirebaseAuth.instance.currentUser;
     return user?.uid;
@@ -30,9 +31,9 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
         .doc(user.id)
         .set(user.toMap())
         .then((value) =>
-            print("***************************************chef project  Added"))
-        .catchError((error) => print(
-            "****************************Failed to add chef project : $error"));
+            print("**************************************cusers  Added"))
+        .catchError((error) =>
+            print("****************************Failed to add users : $error"));
   }
 
   Future<void> addchef_project(Users chef_Project) async {
@@ -50,6 +51,26 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _selectedOption = 'User'; // for redio button
+
+  void showAlertDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +125,9 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
                         Container(
                           height: 40,
                         ),
-                        // Container(
-
-                        // ),
-                        // Row(
-                        //   children: [
                         RadioListTile<String>(
                           title: Text('User'),
-                          value: 'user',
+                          value: 'User',
                           groupValue: _selectedOption,
                           onChanged: (String? value) {
                             setState(() {
@@ -120,7 +136,7 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
                           },
                         ),
                         RadioListTile<String>(
-                          title: Text('chef Project'),
+                          title: Text('Chef Project'),
                           value: 'Chef_Project',
                           groupValue: _selectedOption,
                           onChanged: (String? value) {
@@ -129,15 +145,10 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
                             });
                           },
                         ),
-                        //   ],
-                        // ),
-
                         MyButtonT(
                             title: "Next",
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                // Navigator.of(context).pushNamed("HomePage");
-
                                 try {
                                   final credential = await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
@@ -146,65 +157,55 @@ class _CreatAccountPageState extends State<CreatAccountPage> {
                                   );
                                   FirebaseAuth.instance.currentUser!
                                       .sendEmailVerification();
-                                  if (_selectedOption == "User") {
-                                    print(
-                                        "adddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-                                    String? userId = getCurrentUserId();
-                                    if (userId != null) {
-                                      Users users = Users(
-                                          id: userId,
-                                          firstName: frist_name.text,
-                                          lastName: las_name.text,
-                                          N_tel: int.parse(numbe.text),
-                                          email: email.text,
-                                          password: passwod.text);
 
+                                  String? userId = getCurrentUserId();
+                                  if (userId != null) {
+                                    Users users = Users(
+                                      id: userId,
+                                      firstName: frist_name.text,
+                                      lastName: las_name.text,
+                                      N_tel: numbe.text,
+                                      email: email.text,
+                                      password: passwod.text,
+                                      type: _selectedOption,
+                                    );
+
+                                    if (_selectedOption == "User") {
                                       addUser(users);
-                                    }
-
-                                    print(
-                                        "adddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-                                  } else {
-                                    String? userId = getCurrentUserId();
-                                    if (userId != null) {
-                                      Users users = Users(
-                                          id: userId,
-                                          firstName: frist_name.text,
-                                          lastName: las_name.text,
-                                          N_tel: int.parse(numbe.text),
-                                          email: email.text,
-                                          password: passwod.text);
+                                    } else {
                                       addchef_project(users);
                                     }
                                   }
 
+                                  showAlertDialog(context, "Success",
+                                      "Account created successfully. Please check your email for verification.");
                                   Navigator.of(context)
-                                      .pushReplacementNamed("signin");
+                                      .pushReplacementNamed("/signin");
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'weak-password') {
-                                    print('The password provided is too weak.');
-                                  } else if (e.code == 'email-already-in-use') {
-                                    print(
-                                        'The account already exists for that email.');
+                                    showAlertDialog(context, "Error",
+                                        "The password provided is too weak.");
+                                  } else if (e.code ==
+                                      'email-already-in-use') {
+                                    showAlertDialog(context, "Error",
+                                        "The account already exists for that email.");
                                   }
                                 } catch (e) {
-                                  print(e);
+                                  showAlertDialog(context, "Error",
+                                      "An unexpected error occurred.");
                                 }
-                                // },
                               }
                             }),
                         Container(
                           height: 50,
                         ),
-
-                        // margin: EdgeInsets.only(top: 100),
                         InkWell(
                           onTap: () {
                             Navigator.of(context)
-                                .pushReplacementNamed("signin");
+                                .pushReplacementNamed("/signin");
                           },
                           child: Text.rich(TextSpan(children: [
-                            TextSpan(text: ("Already have a account??  ")),
+                            TextSpan(text: ("Already have an account??  ")),
                             TextSpan(
                                 text: "  Sign in",
                                 style: TextStyle(
